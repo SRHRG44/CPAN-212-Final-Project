@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
 
     // Hardcoded admin credentials for testing
-    if (username === "admin" && password === "password123") {
+    if (username === "srhrg" && password === "srhrg") {
       localStorage.setItem("username", username);
       router.push("/");
     } else {
@@ -30,8 +30,9 @@ export default function Login() {
 
   return (
     <div className={styles.loginContainer}>
-      <h1>Login</h1>
       <form onSubmit={handleLogin} className={styles.loginForm}>
+      <h1>Login</h1>
+      <br></br>
         <div className={styles.formGroup}>
           <label htmlFor="username">Username:</label>
           <input

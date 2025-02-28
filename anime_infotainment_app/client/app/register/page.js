@@ -33,8 +33,9 @@ export default function Register() {
 
   return (
     <div className={styles.registerContainer}>
-      <h1>Register</h1>
       <form onSubmit={handleRegister} className={styles.registerForm}>
+      <h1>Register</h1>
+      <br></br>
         <div className={styles.formGroup}>
           <label htmlFor="username">Username:</label>
           <input

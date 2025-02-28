@@ -5,6 +5,8 @@ export default function About() {
     <div className={styles.aboutContainer}>
       <div className={styles.section}>
         <h1>About One Stop Anime & Manga</h1>
+        <br></br>
+        <br></br>
         <p>
           Welcome to One Stop Anime & Manga, your ultimate destination for all things anime and manga!
         </p>

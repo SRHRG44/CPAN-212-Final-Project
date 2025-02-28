@@ -1,30 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import styles from './profile.module.css';
 
 export default function MyProfile() {
   const [profile, setProfile] = useState({
-    name: "",
-    email: "",
-    birthday: "",
-    country: "",
+    name: '',
+    email: '',
+    birthday: '',
+    country: '',
   });
 
   useEffect(() => {
-    // Simulate fetching profile data from a backend or localStorage
-    const storedUsername = localStorage.getItem("username"); //get username
+    const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
-      //In a real application, you would make an API call here to get the users profile information.
-      //For this example we are hardcoding the data, or using local storage.
-      const storedProfile = localStorage.getItem("profile");
+      const storedProfile = localStorage.getItem('profile');
       if (storedProfile) {
         setProfile(JSON.parse(storedProfile));
       } else {
         setProfile({
           name: storedUsername,
           email: `${storedUsername}@example.com`,
-          birthday: "1990-01-01",
-          country: "Unknown",
+          birthday: '1990-01-01',
+          country: 'Unknown',
         });
       }
     }
@@ -39,16 +37,15 @@ export default function MyProfile() {
   };
 
   const handleSave = () => {
-    // Simulate saving profile data to a backend or localStorage
-    localStorage.setItem("profile", JSON.stringify(profile));
-    alert("Profile saved!");
+    localStorage.setItem('profile', JSON.stringify(profile));
+    alert('Profile saved!');
   };
 
   return (
-    <div>
-      <h1>My Profile</h1>
-      <form>
-        <div>
+    <div className={styles.profileContainer}>
+      <form className={styles.profileForm}>
+        <h1>My Profile</h1>
+        <div className={styles.formGroup}>
           <label htmlFor="name">Name:</label>
           <input
             type="text"
@@ -58,7 +55,7 @@ export default function MyProfile() {
             onChange={handleInputChange}
           />
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -68,7 +65,7 @@ export default function MyProfile() {
             onChange={handleInputChange}
           />
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="birthday">Birthday:</label>
           <input
             type="date"
@@ -78,7 +75,7 @@ export default function MyProfile() {
             onChange={handleInputChange}
           />
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="country">Country:</label>
           <input
             type="text"
@@ -88,7 +85,7 @@ export default function MyProfile() {
             onChange={handleInputChange}
           />
         </div>
-        <button type="button" onClick={handleSave}>
+        <button type="button" onClick={handleSave} className={styles.saveButton}>
           Save
         </button>
       </form>

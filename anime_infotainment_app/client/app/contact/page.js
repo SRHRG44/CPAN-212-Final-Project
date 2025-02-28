@@ -24,8 +24,9 @@ export default function Contact() {
 
   return (
     <div className={styles.contactContainer}>
-      <div>
+      <div className={styles.formWrapper}> {/* Add this wrapper */}
         <h1>Contact Us</h1>
+        <br></br>
         <p>Please fill out the form below to contact us.</p>
         <form onSubmit={handleSubmit} className={styles.contactForm}>
           <div className={styles.formGroup}>

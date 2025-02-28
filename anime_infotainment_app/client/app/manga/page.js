@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import styles from './manga.module.css'; // Import the CSS module
 
 export default function Manga() {
   const [mangaList, setMangaList] = useState([]);
@@ -41,30 +42,30 @@ export default function Manga() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   return (
-    <div>
+    <div className={styles.mangaContainer}>
       <h1>Manga (Alphabetical Order)</h1>
 
-      <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "20px" }}>
+      <div className={styles.letterButtons}>
         {alphabet.map((letter) => (
           <button
             key={letter}
             onClick={() => handleLetterClick(letter)}
-            style={{ margin: "5px", padding: "5px 10px", cursor: "pointer" }}
+            className={styles.letterButton} // Apply letterButton style
           >
             {letter}
           </button>
         ))}
       </div>
 
-      <div>
+      <div className={styles.mangaGroups}>
         {alphabet.map((letter) => (
-          <div key={letter} ref={(el) => (letterRefs.current[letter] = el)}>
-            <h2>{letter}</h2>
-            <ul>
+          <div key={letter} ref={(el) => (letterRefs.current[letter] = el)} className={styles.mangaGroup}>
+            <h2 className={styles.letterHeader}>{letter}</h2>
+            <ul className={styles.mangaList}>
               {mangaList
                 .filter((manga) => manga.letter === letter)
                 .map((manga) => (
-                  <li key={manga.id}>{manga.title}</li>
+                  <li key={manga.id} className={styles.mangaItem}>{manga.title}</li>
                 ))}
             </ul>
           </div>

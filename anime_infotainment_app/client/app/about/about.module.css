@@ -1,9 +1,9 @@
 .aboutContainer {
-    background-image: url('../public/animecollage1.jpg');
+    background-image: url('/animecollage5.jpg'); /* Use the image from public folder */
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
-    color: white;
+    min-height: 100vh; /* Cover the entire viewport height */
+    color: white; /* Set text color for readability */
     padding: 20px;
     text-align: center;
     display: flex;
@@ -13,7 +13,7 @@
   }
   
   .section {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.834);
     padding: 20px;
     margin: 20px 0;
     border-radius: 8px;
@@ -22,9 +22,16 @@
     max-width: 800px; /* Set a max width */
   }
   
+  /* .section ul {
+    list-style-type: none;
+  } */
+
   .section ul {
     list-style-type: disc;
-    padding-left: 20px;
+    list-style-position: outside; /* Change to outside */
+    padding-left: 20px; /* Add padding */
+    text-align: left; /* Change text-align */
+    display: inline-block; /* Add display: inline-block; */
   }
   
   .contactLink {
