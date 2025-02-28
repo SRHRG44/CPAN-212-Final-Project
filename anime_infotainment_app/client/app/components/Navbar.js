@@ -21,47 +21,31 @@ export default function Navbar() {
     router.push("/"); // Redirect to homepage
   };
 
+  const buttonStyle = {
+    margin: '0 10px',
+    padding: '8px 12px',
+    border: '1px solid #ccc', // Add border
+    borderRadius: '4px', // Optional: Add rounded corners
+    cursor: 'pointer', // Optional: Change cursor to pointer
+    textDecoration: 'none', // Remove underline from Link
+    color: 'inherit', // Inherit color from parent
+  };
+
   return (
-    <nav
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "10px 20px",
-      }}
-    >
+    <nav style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       {username ? (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <span style={{ marginRight: "20px" }}>Welcome, {username}!</span>
-          <span>One stop Anime & Manga</span>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <button onClick={handleLogout} style={{ ...buttonStyle, marginLeft: 'auto' }}>Logout</button>
         </div>
       ) : (
-        <ul>
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/login">Login</Link>
-          </li>
-          <li>
-            <Link href="/register">Register</Link>
-          </li>
-          <li>
-            <Link href="/about">About Us</Link>
-          </li>
-          <li>
-            <Link href="/manga">Manga</Link>
-          </li>
-          <li>
-            <Link href="/contact">Contact Us</Link>
-          </li>
-        </ul>
-      )}
-
-      {username && (
-        <button onClick={handleLogout} style={{ marginLeft: "auto" }}>
-          Logout
-        </button>
+        <div style={{ display: 'flex' }}>
+          <Link href="/" style={buttonStyle}>Home</Link>
+          <Link href="/login" style={buttonStyle}>Login</Link>
+          <Link href="/manga" style={buttonStyle}>Manga</Link>
+          <Link href="/register" style={buttonStyle}>Register</Link>
+          <Link href="/about" style={buttonStyle}>About Us</Link>
+          <Link href="/contact" style={buttonStyle}>Contact Us</Link>
+        </div>
       )}
     </nav>
   );

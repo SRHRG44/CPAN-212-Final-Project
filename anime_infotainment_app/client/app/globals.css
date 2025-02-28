@@ -40,3 +40,27 @@ a {
     color-scheme: dark;
   }
 }
+
+header {
+  background-color: #b20707;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  font-size: 36px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 4px solid rgb(162, 8, 190);
+}
+
+footer {
+  background-color: #087dc1;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  font-size: 36px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-top: 4px solid rgb(162, 8, 190);
+}

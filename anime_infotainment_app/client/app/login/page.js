@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./login.module.css";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -28,10 +29,10 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className={styles.loginContainer}>
       <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
+      <form onSubmit={handleLogin} className={styles.loginForm}>
+        <div className={styles.formGroup}>
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -40,7 +41,7 @@ export default function Login() {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="password">Password:</label>
           <input
             type="password"

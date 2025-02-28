@@ -1,0 +1,33 @@
+.aboutContainer {
+    background-image: url('../public/animecollage1.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .section {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-align: center; /* Center the text */
+    width: 80%; /* Limit width of section */
+    max-width: 800px; /* Set a max width */
+  }
+  
+  .section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .contactLink {
+    color: skyblue;
+    text-decoration: underline;
+  }

@@ -20,10 +20,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Navbar /> {/* Include the Navbar here */}
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <header>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <span>One stop Anime & Manga</span>
+            <Navbar />
+          </div>
+        </header>
+        <main style={{ flex: 1 }}>{children}</main>
+        <footer>One stop Anime & Manga</footer>
       </body>
     </html>
   );
 }
+

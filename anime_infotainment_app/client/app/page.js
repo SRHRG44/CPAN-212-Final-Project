@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styles from './page.module.css';
 
 export default function Home() {
   const [top10Animes, setTop10Animes] = useState([]);
@@ -39,54 +40,37 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <h1>Welcome to One Stop Anime & Manga</h1>
-
-      <div>
+    <div className={styles.homeContainer}>
+      <div className={styles.section}>
         <h2>Top 10 Animes</h2>
-        <div style={{ display: "flex", overflowX: "auto" }}>
+        <div className={styles.animeList}>
           {top10Animes.map((anime) => (
-            <div key={anime.id} style={{ margin: "10px" }}>
-              <img
-                src={anime.imageUrl}
-                alt={anime.title}
-                width="150"
-                height="200"
-              />
+            <div key={anime.id} className={styles.animeItem}>
+              <img src={anime.imageUrl} alt={anime.title} />
               <p>{anime.title}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div>
+      <div className={styles.section}>
         <h2>Currently Airing</h2>
-        <div style={{ display: "flex", overflowX: "auto" }}>
+        <div className={styles.animeList}>
           {currentlyAiring.map((anime) => (
-            <div key={anime.id} style={{ margin: "10px" }}>
-              <img
-                src={anime.imageUrl}
-                alt={anime.title}
-                width="150"
-                height="200"
-              />
+            <div key={anime.id} className={styles.animeItem}>
+              <img src={anime.imageUrl} alt={anime.title} />
               <p>{anime.title}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div>
+      <div className={styles.section}>
         <h2>My Top 5 Anime Picks</h2>
-        <div style={{ display: "flex", overflowX: "auto" }}>
+        <div className={styles.animeList}>
           {myTop5Picks.map((anime) => (
-            <div key={anime.id} style={{ margin: "10px" }}>
-              <img
-                src={anime.imageUrl}
-                alt={anime.title}
-                width="150"
-                height="200"
-              />
+            <div key={anime.id} className={styles.animeItem}>
+              <img src={anime.imageUrl} alt={anime.title} />
               <p>{anime.title}</p>
             </div>
           ))}
