@@ -15,7 +15,7 @@ export default function Login() {
     // Hardcoded admin credentials for testing
     if (username === "srhrg" && password === "srhrg") {
       localStorage.setItem("username", username);
-      router.push("/");
+      router.push("/myprofile");
     } else {
       alert("Invalid username or password.");
     }

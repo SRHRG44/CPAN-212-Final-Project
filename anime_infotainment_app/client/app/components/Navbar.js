@@ -45,8 +45,8 @@ export default function Navbar() {
       {username ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Link href="/" style={buttonStyle}>Home</Link>
-          <Link href="/about" style={buttonStyle}>About Us</Link>
           <Link href="/manga" style={buttonStyle}>Manga</Link>
+          <Link href="/about" style={buttonStyle}>About Us</Link>
           <Link href="/contact" style={buttonStyle}>Contact Us</Link>
           <Link href="/myprofile" style={buttonStyle}>My Profile</Link>
           <button onClick={handleLogout} style={logoutButtonStyle}>Logout</button>
@@ -54,10 +54,10 @@ export default function Navbar() {
       ) : (
         <div style={{ display: 'flex' }}>
           <Link href="/" style={buttonStyle}>Home</Link>
+          <Link href="/manga" style={buttonStyle}>Manga</Link>
           <Link href="/login" style={buttonStyle}>Login</Link>
           <Link href="/register" style={buttonStyle}>Register</Link>
           <Link href="/about" style={buttonStyle}>About Us</Link>
-          <Link href="/manga" style={buttonStyle}>Manga</Link>
           <Link href="/contact" style={buttonStyle}>Contact Us</Link>
         </div>
       )}
