@@ -19,7 +19,7 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('username');
     setUsername(null);
-    router.push('/'); // Redirect to homepage
+    router.push('/');
   };
 
   const buttonStyle = {

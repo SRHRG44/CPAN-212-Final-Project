@@ -1,4 +1,4 @@
-.aboutContainer {
+  .aboutContainer {
     background-image: url('/animecollage5.jpg'); /* Use the image from public folder */
     background-size: cover;
     background-position: center;
@@ -11,20 +11,16 @@
     align-items: center;
     flex-direction: column;
   }
-  
+
   .section {
     background-color: rgba(0, 0, 0, 0.834);
     padding: 20px;
     margin: 20px 0;
     border-radius: 8px;
-    text-align: center; /* Center the text */
-    width: 80%; /* Limit width of section */
-    max-width: 800px; /* Set a max width */
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
   }
-  
-  /* .section ul {
-    list-style-type: none;
-  } */
 
   .section ul {
     list-style-type: disc;
@@ -33,7 +29,7 @@
     text-align: left; /* Change text-align */
     display: inline-block; /* Add display: inline-block; */
   }
-  
+
   .contactLink {
     color: skyblue;
     text-decoration: underline;

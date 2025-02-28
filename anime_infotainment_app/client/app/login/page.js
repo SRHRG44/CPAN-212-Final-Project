@@ -1,4 +1,4 @@
-"use client"; // Important: Use client components for interactivity
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";

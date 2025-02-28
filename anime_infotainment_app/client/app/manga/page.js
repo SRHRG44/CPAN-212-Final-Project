@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import styles from './manga.module.css'; // Import the CSS module
+import styles from './manga.module.css';
 
 export default function Manga() {
   const [mangaList, setMangaList] = useState([]);
@@ -23,7 +23,6 @@ export default function Manga() {
       // ... more manga
     ];
 
-    // Sort manga alphabetically
     const sortedManga = dummyManga.sort((a, b) =>
       a.title.localeCompare(b.title)
     );
@@ -50,7 +49,7 @@ export default function Manga() {
           <button
             key={letter}
             onClick={() => handleLetterClick(letter)}
-            className={styles.letterButton} // Apply letterButton style
+            className={styles.letterButton}
           >
             {letter}
           </button>

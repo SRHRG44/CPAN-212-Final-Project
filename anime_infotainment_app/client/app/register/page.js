@@ -13,7 +13,7 @@ export default function Register() {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError('');
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');

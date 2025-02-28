@@ -168,17 +168,17 @@ a.secondary {
 }
 
 .homeContainer {
-  background-image: url('../public/animecollage1.jpg'); /* Use the image from public folder */
+  background-image: url('../public/animecollage1.jpg');
   background-size: cover;
   background-position: center;
-  min-height: 100vh; /* Cover the entire viewport height */
-  color: white; /* Set text color for readability */
+  min-height: 100vh;
+  color: white;
   padding: 20px;
   text-align: center;
 }
 
 .section {
-  background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background for readability */
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 20px;
   margin: 20px 0;
   border-radius: 8px;
@@ -187,7 +187,7 @@ a.secondary {
 .animeList {
   display: flex;
   overflow-x: auto;
-  white-space: nowrap; /* Prevent wrapping */
+  white-space: nowrap;
 }
 
 .animeItem {
