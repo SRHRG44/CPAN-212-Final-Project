@@ -15,7 +15,7 @@ export default function Home() {
           "https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=10&fields=title,main_picture",
           {
             headers: {
-              "X-MAL-CLIENT-ID": "YOUR_CLIENT_ID",
+              "X-MAL-CLIENT-ID": "CPAN-212-Final-Project",
             },
           }
         );
