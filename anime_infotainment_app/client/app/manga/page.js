@@ -5,35 +5,98 @@ import styles from './manga.module.css';
 export default function Manga() {
   const [mangaList, setMangaList] = useState([]);
   const letterRefs = useRef({});
+  const [accessToken, setAccessToken] = useState(null);
+  const CLIENT_ID = process.env.MAL_CLIENT_ID;
+  const CLIENT_SECRET = process.env.MAL_CLIENT_SECRET; // Insecure! For demo only!
+  const REDIRECT_URI = "http://localhost:3000/manga"; // Adjust as needed
+  const CODE_VERIFIER = generateCodeVerifier();
 
   useEffect(() => {
-    const fetchMangaList = async () => {
-      try {
-        const response = await fetch(
-          "https://api.myanimelist.net/v2/manga/ranking?ranking_type=manga&limit=500&fields=title,main_picture",
-          {
-            headers: {
-              "X-MAL-CLIENT-ID": "YOUR_CLIENT_ID",
-            },
-          }
-        );
-        const data = await response.json();
-        const mangaData = data.data.map((item) => ({
-          id: item.node.id,
-          title: item.node.title,
-          letter: item.node.title.charAt(0).toUpperCase(),
-        }));
-        const sortedManga = mangaData.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        );
-        setMangaList(sortedManga);
-      } catch (error) {
-        console.error("Error fetching manga data:", error);
-      }
-    };
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
 
-    fetchMangaList();
+    if (code && !accessToken) {
+      fetchAccessToken(code);
+    } else {
+      const storedToken = localStorage.getItem("accessToken");
+      if (storedToken) {
+        setAccessToken(storedToken);
+      } else {
+        authorizeUser();
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+      fetchData();
+    }
+  }, [accessToken]);
+
+  const authorizeUser = () => {
+    const codeChallenge = CODE_VERIFIER; // MAL uses plain
+    const authUrl = `https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${CLIENT_ID}&code_challenge=${codeChallenge}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+    window.location.href = authUrl;
+  };
+
+  const fetchAccessToken = async (code) => {
+    try {
+      const response = await fetch("https://myanimelist.net/v1/oauth2/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          grant_type: "authorization_code",
+          client_id: CLIENT_ID,
+          client_secret: CLIENT_SECRET, // Insecure! For demo only!
+          code: code,
+          code_verifier: CODE_VERIFIER,
+          redirect_uri: REDIRECT_URI,
+        }),
+      });
+      const data = await response.json();
+      setAccessToken(data.access_token);
+    } catch (error) {
+      console.error("Error fetching access token:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://api.myanimelist.net/v2/manga/ranking?ranking_type=manga&limit=500&fields=title,main_picture",
+        {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        }
+      );
+      const data = await response.json();
+      const mangaData = data.data.map((item) => ({
+        id: item.node.id,
+        title: item.node.title,
+        letter: item.node.title.charAt(0).toUpperCase(),
+      }));
+      const sortedManga = mangaData.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+      setMangaList(sortedManga);
+    } catch (error) {
+      console.error("Error fetching manga data:", error);
+    }
+  };
+
+  function generateCodeVerifier() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 128; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
 
   const handleLetterClick = (letter) => {
     if (letterRefs.current[letter]) {

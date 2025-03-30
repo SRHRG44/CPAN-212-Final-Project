@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import styles from './register.module.css';
 
 export default function Register() {
-  const [username, setUsername] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -20,29 +22,57 @@ export default function Register() {
       return;
     }
 
-    if (!username || !password) {
-      setError('Please fill in all fields.');
-      return;
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ first_name, last_name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push("/login");
+      } else {
+        setError(data.message || "Registration failed");
+      }
+    } catch (err) {
+      setError("An error occurred during registration.");
     }
-
-    // Simulate successful registration (replace with real registration logic)
-    localStorage.setItem('username', username);
-    router.push('/');
   };
-
 
   return (
     <div className={styles.registerContainer}>
       <form onSubmit={handleRegister} className={styles.registerForm}>
-      <h1>Register</h1>
-      <br></br>
+        <h1>Register</h1>
+        <br />
         <div className={styles.formGroup}>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="first_name">First Name:</label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="first_name"
+            value={first_name}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="last_name">Last Name:</label>
+          <input
+            type="text"
+            id="last_name"
+            value={last_name}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className={styles.formGroup}>

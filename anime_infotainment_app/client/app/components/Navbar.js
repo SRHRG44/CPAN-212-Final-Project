@@ -5,20 +5,17 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
-  const [username, setUsername] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    console.log('Username from localStorage:', storedUsername);
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('username');
-    setUsername(null);
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
     router.push('/');
   };
 
@@ -42,7 +39,7 @@ export default function Navbar() {
 
   return (
     <nav style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      {username ? (
+      {isLoggedIn ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Link href="/" style={buttonStyle}>Home</Link>
           <Link href="/manga" style={buttonStyle}>Manga</Link>

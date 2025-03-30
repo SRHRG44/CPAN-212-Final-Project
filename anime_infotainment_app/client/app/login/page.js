@@ -5,41 +5,49 @@ import { useRouter } from "next/navigation";
 import styles from "./login.module.css";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
-    // Hardcoded admin credentials for testing
-    if (username === "srhrg" && password === "srhrg") {
-      localStorage.setItem("username", username);
-      router.push("/myprofile");
-    } else {
-      alert("Invalid username or password.");
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        router.push("/myprofile");
+      } else {
+        setError(data.message || "Login failed");
+      }
+    } catch (err) {
+      setError("An error occurred during login.");
     }
-    // // Simulate successful login (replace with real authentication)
-    // if (username && password) {
-    //   localStorage.setItem("username", username); // Store username
-    //   router.push("/"); // Redirect to homepage
-    // } else {
-    //   alert("Please enter username and password.");
-    // }
   };
 
   return (
     <div className={styles.loginContainer}>
       <form onSubmit={handleLogin} className={styles.loginForm}>
-      <h1>Login</h1>
-      <br></br>
+        <h1>Login</h1>
+        <br />
         <div className={styles.formGroup}>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="email">Email:</label>
           <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className={styles.formGroup}>
@@ -51,6 +59,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {error && <p className={styles.error}>{error}</p>}
         <button type="submit">Login</button>
       </form>
     </div>

@@ -3,30 +3,44 @@
 import { useState } from "react";
 import styles from './contact.module.css';
 
-
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmissionStatus(null);
 
-    // Simulate sending the contact form (replace with real backend logic)
-    console.log("Form submitted:", { name, email, message });
-    alert("Thank you for your message!");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
 
-    // Reset the form
-    setName("");
-    setEmail("");
-    setMessage("");
+      if (response.ok) {
+        setSubmissionStatus('success');
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        setSubmissionStatus('error');
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmissionStatus('error');
+    }
   };
 
   return (
     <div className={styles.contactContainer}>
       <div className={styles.formWrapper}>
         <h1>Contact Us</h1>
-        <br></br>
+        <br />
         <p>Please fill out the form below to contact us.</p>
         <form onSubmit={handleSubmit} className={styles.contactForm}>
           <div className={styles.formGroup}>
@@ -60,6 +74,12 @@ export default function Contact() {
           </div>
           <button type="submit">Send Message</button>
         </form>
+        {submissionStatus === 'success' && (
+          <p className={styles.successMessage}>Thank you for your message!</p>
+        )}
+        {submissionStatus === 'error' && (
+          <p className={styles.errorMessage}>Failed to send message. Please try again.</p>
+        )}
       </div>
     </div>
   );

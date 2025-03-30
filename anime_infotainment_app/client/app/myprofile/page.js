@@ -2,31 +2,44 @@
 
 import { useState, useEffect } from 'react';
 import styles from './profile.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function MyProfile() {
   const [profile, setProfile] = useState({
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    birthday: '',
-    country: '',
   });
+  const router = useRouter();
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      const storedProfile = localStorage.getItem('profile');
-      if (storedProfile) {
-        setProfile(JSON.parse(storedProfile));
-      } else {
-        setProfile({
-          name: storedUsername,
-          email: `${storedUsername}@example.com`,
-          birthday: '1990-01-01',
-          country: 'Unknown',
-        });
-      }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/login');
+      return;
     }
-  }, []);
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('/api/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          setProfile(userData);
+        } else {
+          router.push('/login');
+        }
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+        router.push('/login');
+      }
+    };
+
+    fetchProfile();
+  }, [router]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,9 +49,27 @@ export default function MyProfile() {
     }));
   };
 
-  const handleSave = () => {
-    localStorage.setItem('profile', JSON.stringify(profile));
-    alert('Profile saved!');
+  const handleSave = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('/api/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(profile),
+      });
+      if (response.ok) {
+        alert('Profile saved!');
+      } else {
+        const data = await response.json();
+        setError(data.message || 'Failed to save profile');
+      }
+    } catch (err) {
+      setError('An error occurred while saving profile');
+      console.error('Error saving profile:', err);
+    }
   };
 
   return (
@@ -46,12 +77,22 @@ export default function MyProfile() {
       <form className={styles.profileForm}>
         <h1>My Profile</h1>
         <div className={styles.formGroup}>
-          <label htmlFor="name">Name:</label>
+          <label htmlFor="first_name">First Name:</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={profile.name}
+            id="first_name"
+            name="first_name"
+            value={profile.first_name}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="last_name">Last Name:</label>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            value={profile.last_name}
             onChange={handleInputChange}
           />
         </div>
@@ -65,26 +106,7 @@ export default function MyProfile() {
             onChange={handleInputChange}
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="birthday">Birthday:</label>
-          <input
-            type="date"
-            id="birthday"
-            name="birthday"
-            value={profile.birthday}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="country">Country:</label>
-          <input
-            type="text"
-            id="country"
-            name="country"
-            value={profile.country}
-            onChange={handleInputChange}
-          />
-        </div>
+        {error && <p className={styles.error}>{error}</p>}
         <button type="button" onClick={handleSave} className={styles.saveButton}>
           Save
         </button>
