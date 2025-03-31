@@ -8,9 +8,8 @@ export default function Home() {
   const [seasonalAnimes, setSeasonalAnimes] = useState([]);
   const [top10Mangas, setTop10Mangas] = useState([]);
   const [accessToken, setAccessToken] = useState(null);
-  const CLIENT_ID = process.env.MAL_CLIENT_ID;
-  const CLIENT_SECRET = process.env.MAL_CLIENT_SECRET; // Insecure! For demo only!
-  const REDIRECT_URI = "http://localhost:3000/"; // Adjust as needed
+  const CLIENT_ID = process.env.NEXT_PUBLIC_MAL_CLIENT_ID;
+  const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
   const CODE_VERIFIER = generateCodeVerifier();
 
   useEffect(() => {
@@ -44,18 +43,15 @@ export default function Home() {
 
   const fetchAccessToken = async (code) => {
     try {
-      const response = await fetch("https://myanimelist.net/v1/oauth2/token", {
+      const response = await fetch("/api/mal-token", {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: new URLSearchParams({
-          grant_type: "authorization_code",
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET, // Insecure! For demo only!
+        body: JSON.stringify({
           code: code,
-          code_verifier: CODE_VERIFIER,
-          redirect_uri: REDIRECT_URI,
+          codeVerifier: CODE_VERIFIER,
+          redirectUri: REDIRECT_URI,
         }),
       });
       const data = await response.json();
