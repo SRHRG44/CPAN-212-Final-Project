@@ -168,7 +168,7 @@ a.secondary {
 }
 
 .homeContainer {
-  background-image: url('../public/animecollage1.jpg');
+  background-image: url('/animecollage.jpg');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
