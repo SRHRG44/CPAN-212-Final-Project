@@ -1,40 +1,76 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import styles from './manga.module.css';
+import { useState, useEffect } from "react";
+import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function Manga() {
   const [mangaList, setMangaList] = useState([]);
-  const letterRefs = useRef({});
+  const [selectedLetter, setSelectedLetter] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (letter, page = 1, retryCount = 0) => {
       try {
-        const response = await fetch("https://api.jikan.moe/v4/manga?limit=500");
+        let apiUrl = `https://api.jikan.moe/v4/manga?limit=25&page=${page}`;
+        if (letter) {
+          apiUrl += `&letter=${letter}`;
+        }
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          if (response.status === 429 && retryCount < 3) {
+            // Retry with exponential backoff
+            const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+            console.warn(`Rate limit exceeded. Retrying in ${delay / 1000}s...`);
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            await fetchData(letter, page, retryCount + 1); // Recursive call with retryCount incremented
+            return;
+          }
+
+          console.error(`API Error: ${response.status} ${response.statusText}`);
+          setMangaList([]);
+          return;
+        }
+
         const data = await response.json();
-        const mangaData = data.data.map((item) => ({
-          id: item.mal_id,
-          title: item.title,
-          letter: item.title.charAt(0).toUpperCase(),
-        }));
-        const sortedManga = mangaData.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        );
-        setMangaList(sortedManga);
+
+        if (data && data.data && Array.isArray(data.data)) {
+          let mangaData = data.data.map((item) => ({
+            id: item.mal_id,
+            title: item.title,
+          }));
+
+          setMangaList((prevList) => [...prevList, ...mangaData]);
+
+          if (data.pagination.has_next_page) {
+            await new Promise((resolve) => setTimeout(resolve, 500)); // Delay of 500ms
+            await fetchData(letter, page + 1);
+          }
+        } else {
+          console.error("API response is missing data:", data);
+          setMangaList([]);
+        }
       } catch (error) {
         console.error("Error fetching manga data:", error);
+        setMangaList([]);
       }
     };
 
-    fetchData();
-  }, []);
+    setMangaList([]);
+    if (selectedLetter) {
+      fetchData(selectedLetter);
+    } else {
+      fetchData();
+    }
+  }, [selectedLetter]);
 
   const handleLetterClick = (letter) => {
-    if (letterRefs.current[letter]) {
-      letterRefs.current[letter].scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+    setSelectedLetter(letter);
+  };
+
+  const handleMangaClick = (id) => {
+    router.push(`/manga/${id}`);
   };
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -55,17 +91,14 @@ export default function Manga() {
         ))}
       </div>
 
-      <div className={styles.mangaGroups}>
-        {alphabet.map((letter) => (
-          <div key={letter} ref={(el) => (letterRefs.current[letter] = el)} className={styles.mangaGroup}>
-            <h2 className={styles.letterHeader}>{letter}</h2>
-            <ul className={styles.mangaList}>
-              {mangaList
-                .filter((manga) => manga.letter === letter)
-                .map((manga) => (
-                  <li key={manga.id} className={styles.mangaItem}>{manga.title}</li>
-                ))}
-            </ul>
+      <div className={styles.mangaList}>
+        {mangaList.map((manga) => (
+          <div
+            key={manga.id}
+            className={styles.mangaItem}
+            onClick={() => handleMangaClick(manga.id)}
+          >
+            {manga.title}
           </div>
         ))}
       </div>

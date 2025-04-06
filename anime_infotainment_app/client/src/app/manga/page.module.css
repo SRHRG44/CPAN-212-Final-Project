@@ -1,0 +1,75 @@
+.mangaContainer {
+    padding: 20px;
+  }
+  
+  .letterButtons {
+    display: flex;
+    justify-content: space-evenly; /* Distribute buttons evenly */
+    padding: 20px 0;
+    border-bottom: 2px solid purple;
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    padding-left: 0; /* Remove left padding */
+  }
+  
+  .letterButton {
+    font-size: 1.5rem;
+    border: 2px solid purple;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: transparent;
+    flex: 1; /* Allow buttons to grow to fill space */
+    text-align: center; /* Center text inside buttons */
+    margin: 0; /* Remove margin for even spacing */
+  }
+  
+  .mangaGroups {
+    margin-top: 20px;
+  }
+  
+  .mangaGroup {
+    margin-bottom: 20px;
+  }
+  
+  .letterHeader {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .mangaList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mangaItem {
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .letterButtons {
+      justify-content: flex-start; /* Revert to flex-start on smaller screens */
+    }
+  
+    .letterButton {
+      flex: 0 0 auto; /* Prevent buttons from growing on smaller screens */
+      margin: 0 5px; /* Add margin back for spacing */
+    }
+  
+    .letterButton {
+      font-size: 1.2rem;
+      padding: 8px 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .letterButton {
+      font-size: 1rem;
+      padding: 6px 10px;
+      margin: 0 2px;
+    }
+  }

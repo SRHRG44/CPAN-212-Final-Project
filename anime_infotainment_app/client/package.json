@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.1",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",
@@ -16,6 +17,7 @@
     "mongoose": "^8.13.1",
     "next": "^15.2.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-modal": "^3.16.3"
   }
 }
