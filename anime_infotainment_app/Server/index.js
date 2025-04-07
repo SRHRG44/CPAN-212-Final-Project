@@ -13,6 +13,11 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
+// API routes
+app.use('/api', userRouter);
+app.use('/api', contactRouter);
+app.use('/api', profileRouter);
+
 // 404 page (API not found)
 app.use((req, res) => {
   res.status(404).json({ message: 'API route not found' });
