@@ -41,19 +41,11 @@ export default function MyProfile() {
     fetchProfile();
   }, [router]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value,
-    }));
-  };
-
   const handleSave = async () => {
     const token = localStorage.getItem('token');
     try {
       const response = await fetch('/api/profile', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -71,6 +63,15 @@ export default function MyProfile() {
       console.error('Error saving profile:', err);
     }
   };
+
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setProfile((prevProfile) => ({
+  //     ...prevProfile,
+  //     [name]: value,
+  //   }));
+  // };
+
 
   return (
     <div className={styles.profileContainer}>
