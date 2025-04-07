@@ -1,7 +1,11 @@
+// server/index.js
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import userRouter from './routes/user_router.js';
+import contactRouter from './routes/contact_router.js';
+import profileRouter from './routes/profile_router.js';
 
 dotenv.config();
 
