@@ -36,22 +36,23 @@ const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = auth.generateToken(user);
-    res.status(200).json({ token, message: "Login successful" });
+    res.status(200).json({ token, message: 'Login successful' });
   } catch (error) {
-    console.error("Error during login:", error);
-    res.status(500).json({ message: "Error logging in" });
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Error logging in', error: error.message });
   }
 };
 
+// Logout user
 const logoutUser = async (req, res) => {
   try {
     // Client-side token removal is sufficient for logout in JWT-based auth

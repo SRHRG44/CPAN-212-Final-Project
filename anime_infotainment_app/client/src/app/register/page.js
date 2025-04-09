@@ -23,7 +23,14 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("/api/register", {
+      // --- >>> THE CRUCIAL CHANGE IS HERE <<< ---
+        // Use the full URL of your running Express server (port 8000)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/register";
+
+        console.log(`Sending registration request to: ${apiUrl}`); // Debug log
+
+        const response = await fetch(apiUrl, { // <--- Make sure this uses the full apiUrl
+        // const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
