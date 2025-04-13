@@ -12,8 +12,8 @@ export default function MyProfile() {
     last_name: '',
     email: '',
   });
-  const [isLoading, setIsLoading] = useState(true); // Loading state for fetching
-  const [isSaving, setIsSaving] = useState(false); // Saving state
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
   const [error, setError] = useState('');
 
@@ -44,20 +44,19 @@ export default function MyProfile() {
     } finally {
       setIsLoading(false);
     }
-  }, [router]); // Add dependencies for useCallback
+  }, [router]);
 
-  // --- Effect to fetch profile on load ---
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push('/login'); // Redirect if no token found
+      router.push('/login');
       return;
     }
     fetchProfile(token);
-  }, [router, fetchProfile]); // useEffect depends on router and fetchProfile
+  }, [router, fetchProfile]);
 
-  // --- Handle Input Changes ---
-  // Defined handleInputChange to allow editing form fields
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({
@@ -66,7 +65,6 @@ export default function MyProfile() {
     }));
   };
 
-  // --- Handle Save Profile ---
   const handleSave = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -77,24 +75,23 @@ export default function MyProfile() {
 
     setIsSaving(true);
     setError('');
-    const profileUrl = `${API_BASE_URL}/profile`; // Construct the full URL
+    const profileUrl = `${API_BASE_URL}/profile`;
     console.log(`Saving profile to: ${profileUrl}`);
 
     try {
-      const response = await fetch(profileUrl, { // <-- Use the full URL
-        method: 'PUT', // Or 'POST' depending on your API design for updates
+      const response = await fetch(profileUrl, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(profile), // Send the current profile state
+        body: JSON.stringify(profile),
       });
 
       if (response.ok) {
-        // Optionally re-fetch profile data after save or update state from response
-          const updatedProfile = await response.json(); // Assuming API returns updated profile
+          const updatedProfile = await response.json();
         setProfile(updatedProfile);
-          alert('Profile saved successfully!'); // Simple feedback
+          alert('Profile saved successfully!');
       } else {
         let errorMessage = `Failed to save profile: ${response.status}`;
         try {
@@ -120,14 +117,13 @@ export default function MyProfile() {
     }
   };
 
-  // --- Render Logic ---
+
   if (isLoading) {
       return <div className={styles.profileContainer}><p>Loading profile...</p></div>;
   }
 
   return (
     <div className={styles.profileContainer}>
-      {/* Changed to regular div, form submission handled by button click */}
       <div className={styles.profileForm}>
         <h1>My Profile</h1>
         <div className={styles.formGroup}>
@@ -135,10 +131,10 @@ export default function MyProfile() {
           <input
             type="text"
             id="first_name"
-            name="first_name" // Name attribute is crucial for handleInputChange
-            value={profile.first_name || ''} // Handle potential null/undefined values
+            name="first_name"
+            value={profile.first_name || ''}
             onChange={handleInputChange}
-            disabled={isSaving} // Disable while saving
+            disabled={isSaving}
           />
         </div>
         <div className={styles.formGroup}>
@@ -163,7 +159,6 @@ export default function MyProfile() {
             disabled={isSaving}
           />
         </div>
-        {/* Add other profile fields here */}
 
         {error && <p className={styles.error}>{error}</p>}
 

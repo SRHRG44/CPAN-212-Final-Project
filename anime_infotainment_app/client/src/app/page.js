@@ -51,7 +51,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchTopData();
-  }, [router.pathname]); // Use router.pathname as dependency
+  }, [router.pathname]);
 
   const handleImageError = (e) => {
     e.target.src = '/placeholder.png';

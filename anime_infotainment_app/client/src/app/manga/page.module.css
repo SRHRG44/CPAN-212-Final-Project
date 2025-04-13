@@ -4,13 +4,13 @@
   
   .letterButtons {
     display: flex;
-    justify-content: space-evenly; /* Distribute buttons evenly */
+    justify-content: space-evenly;
     padding: 20px 0;
     border-bottom: 2px solid purple;
     overflow-x: auto;
     white-space: nowrap;
     scroll-behavior: smooth;
-    padding-left: 0; /* Remove left padding */
+    padding-left: 0;
   }
   
   .letterButton {
@@ -20,9 +20,9 @@
     border-radius: 8px;
     cursor: pointer;
     background-color: transparent;
-    flex: 1; /* Allow buttons to grow to fill space */
-    text-align: center; /* Center text inside buttons */
-    margin: 0; /* Remove margin for even spacing */
+    flex: 1;
+    text-align: center;
+    margin: 0;
   }
   
   .mangaGroups {
@@ -49,15 +49,14 @@
     border-bottom: 1px solid #ddd;
   }
   
-  /* Responsive adjustments */
   @media (max-width: 768px) {
     .letterButtons {
-      justify-content: flex-start; /* Revert to flex-start on smaller screens */
+      justify-content: flex-start;
     }
   
     .letterButton {
-      flex: 0 0 auto; /* Prevent buttons from growing on smaller screens */
-      margin: 0 5px; /* Add margin back for spacing */
+      flex: 0 0 auto;
+      margin: 0 5px;
     }
   
     .letterButton {

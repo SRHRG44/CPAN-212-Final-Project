@@ -27,9 +27,6 @@
         background-color: #686868;
     }
 
-    /* .mangaGroups {} */
-
-
     .mangaGroup {
         margin-bottom: 20px;
     }
@@ -39,7 +36,7 @@
     }
 
     .mangaList {
-        list-style: none; /* Remove default list styles */
+        list-style: none;
         padding: 0;
     }
 

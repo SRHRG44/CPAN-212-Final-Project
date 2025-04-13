@@ -55,7 +55,6 @@ const loginUser = async (req, res) => {
 // Logout user
 const logoutUser = async (req, res) => {
   try {
-    // Client-side token removal is sufficient for logout in JWT-based auth
     res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     console.error("Error during logout:", error);

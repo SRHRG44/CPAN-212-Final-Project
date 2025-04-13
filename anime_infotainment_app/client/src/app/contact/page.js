@@ -14,15 +14,14 @@ export default function Contact() {
 
         const handleSubmit = async (e) => {
           e.preventDefault();
-          setSubmissionStatus('sending'); // Indicate processing
+          setSubmissionStatus('sending');
           setError('');
 
-          const contactUrl = `${API_BASE_URL}/contact`; // Construct the full URL
-          console.log(`Attempting to send contact message to: ${contactUrl}`); // Debug log
+          const contactUrl = `${API_BASE_URL}/contact`;
+          console.log(`Attempting to send contact message to: ${contactUrl}`);
 
           try {
             const response = await fetch(contactUrl, {
-              // const response = await fetch('/api/contact', {// <-- Use the full URL
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -30,14 +29,12 @@ export default function Contact() {
               body: JSON.stringify({ name, email, message }),
             });
 
-             // Check if response is OK, doesn't strictly need a JSON body for success maybe
             if (response.ok) {
               setSubmissionStatus('success');
               setName("");
               setEmail("");
               setMessage("");
             } else {
-               // Try to get error message from body if it's JSON
               let errorMessage = `Failed to send message: ${response.status}`;
               try {
                   const contentType = response.headers.get("content-type");
@@ -77,7 +74,7 @@ export default function Contact() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    disabled={submissionStatus === 'sending'} // Disable while sending
+                    disabled={submissionStatus === 'sending'}
                   />
                 </div>
                 <div className={styles.formGroup}>
@@ -108,7 +105,6 @@ export default function Contact() {
               {submissionStatus === 'success' && (
                 <p className={styles.successMessage}>Thank you for your message!</p>
               )}
-              {/* Show specific error message if available */}
               {submissionStatus === 'error' && (
                 <p className={styles.errorMessage}>{error || 'Failed to send message. Please try again.'}</p>
               )}

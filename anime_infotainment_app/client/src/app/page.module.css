@@ -27,8 +27,6 @@
   }
 }
 
-/* ... (rest of your CSS) ... */
-
 .homeContainer {
   background-image: url('/animecollage.jpg');
   background-size: cover;
@@ -55,7 +53,7 @@
 .animeItem {
   margin: 10px;
   text-align: center;
-  cursor: pointer; /* Added cursor: pointer; */
+  cursor: pointer;
 }
 
 .animeItem img {

@@ -39,8 +39,8 @@ export default function Login() {
   
       if (response.ok) {
         console.log("Login successful, storing token...");
-        localStorage.setItem("token", data.token); // Assuming your API returns a 'token' field
-        router.push("/"); // Redirect to profile page
+        localStorage.setItem("token", data.token);
+        router.push("/");
       } else {
         console.error("Login failed:", data);
         setError(data.message || "Login failed");

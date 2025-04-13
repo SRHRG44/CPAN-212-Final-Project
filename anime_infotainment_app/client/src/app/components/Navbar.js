@@ -1,28 +1,26 @@
 "use client";
 
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation'; // Import usePathname
+import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
-  const pathname = usePathname(); // Get the current URL path
+  const pathname = usePathname();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     const currentlyLoggedIn = !!token;
-    // console.log(`Navbar effect running for path: ${pathname}. Token found: ${currentlyLoggedIn}`); // Debug log
     setIsLoggedIn(currentlyLoggedIn);
-  }, [pathname]); // <-- Add pathname as a dependency
+  }, [pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    router.push('/'); // Redirect to home after logout is often better than login
+    router.push('/');
   };
 
-  // Styles remain the same...
    const buttonStyle = {
      margin: '0 13px',
      fontSize: '30px',

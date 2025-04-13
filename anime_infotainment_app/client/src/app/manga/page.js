@@ -20,11 +20,10 @@ export default function Manga() {
 
         if (!response.ok) {
           if (response.status === 429 && retryCount < 3) {
-            // Retry with exponential backoff
-            const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+            const delay = Math.pow(2, retryCount) * 1000;
             console.warn(`Rate limit exceeded. Retrying in ${delay / 1000}s...`);
             await new Promise((resolve) => setTimeout(resolve, delay));
-            await fetchData(letter, page, retryCount + 1); // Recursive call with retryCount incremented
+            await fetchData(letter, page, retryCount + 1);
             return;
           }
 
@@ -44,7 +43,7 @@ export default function Manga() {
           setMangaList((prevList) => [...prevList, ...mangaData]);
 
           if (data.pagination.has_next_page) {
-            await new Promise((resolve) => setTimeout(resolve, 500)); // Delay of 500ms
+            await new Promise((resolve) => setTimeout(resolve, 500));
             await fetchData(letter, page + 1);
           }
         } else {
